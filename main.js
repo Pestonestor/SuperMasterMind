@@ -38,6 +38,7 @@ for(let i=15;i>0;i--){
   else{
     const hideButton=document.createElement('button')
     hideButton.innerHTML="hide"
+    hideButton.id='hideButton'
     indicator_slot.appendChild(hideButton)
   }
   strip.appendChild(peg_slot)
@@ -52,15 +53,35 @@ const currentTurn=(turn)=>{
     const peg=document.getElementById(`peg${turn}${i}`)
     peg.addEventListener('click',changeColor)
     if(turn>1){
-      const priorPeg=document.getElementById(`peg${turn-1}${i}`)
+      var priorPeg=document.getElementById(`peg${turn-1}${i}`)
+    }
+    else{
+      var priorPeg=document.getElementById(`peg15${i}`)
+    }
       console.log(priorPeg.id)
       priorPeg.removeEventListener('click',changeColor)//changeColor(priorPeg.id))
     }
-  }
   return turn
 }
 
 const submitPlay=document.getElementById('submitPlay')
 submitPlay.addEventListener('click',()=>turn=(currentTurn(turn+1)))
 
+//START GAME CODING TARGET STRIP
+for(let i=1;i<6;i++){
+  const peg=document.getElementById(`peg15${i}`)
+  peg.addEventListener('click',changeColor)
+}
 
+let hide=true
+const toggleHide=()=>{
+  for(let i=1;i<6;i++){
+  const peg=document.getElementById(`peg15${i}`)
+  peg.style.opacity=hide==false?1:0
+  }
+  console.log(hide)
+  return !hide
+}
+
+const hideButton=document.getElementById('hideButton')
+hideButton.addEventListener('click',()=>hide=toggleHide())
