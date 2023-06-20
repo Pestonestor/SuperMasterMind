@@ -46,7 +46,8 @@ for(let i=15;i>0;i--){
   board.appendChild(strip)
 }
 
-//UP ONE STRIP ON SUBMIT PLAY BUTTON
+//UP ONE STRIP ON SUBMIT PLAY
+//AND CALL COMPARE VALUES
 
 const currentTurn=(turn)=>{
     let turnValues=[]
@@ -92,9 +93,9 @@ const hideButton=document.getElementById('hideButton')
 hideButton.addEventListener('click',()=>hide=toggleHide())
 
 //COMPARE VALUES 
-function compareValues(turn,target){
-  let tar=target.slice()
-  let tur=turn.slice()
+function compareValues(turnCompare,targetCompare){
+  let tar=targetCompare.slice()
+  let tur=turnCompare.slice()
   let onTheSpot=[]
   let inTheZoneTarget=[]
   let inTheZoneTurn=[]
@@ -113,8 +114,15 @@ function compareValues(turn,target){
       inTheZone++
     }
   })
-  console.log("ok"+onTheSpot.length)
-  console.log("kinda"+inTheZone)
+  //RETURN INDICATOR PEG
+  for(i=1;i<6;i++){
+    console.log(inTheZone)
+    let indicator=document.getElementById(`indicator${turn}${i}`)
+    if(i<=onTheSpot.length){
+      indicator.style.backgroundColor='green'
+    }
+    else if(i-onTheSpot.length<=inTheZone){
+      indicator.style.backgroundColor='yellow'
+    }
+  }
 }
-
-//RETURN INDICATOR PEG
