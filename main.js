@@ -47,23 +47,28 @@ for(let i=15;i>0;i--){
 }
 
 //UP ONE STRIP ON SUBMIT PLAY BUTTON
-let turn=0
+
 const currentTurn=(turn)=>{
+    let turnValues=[]
     for (let i=1;i<6;i++){
     const peg=document.getElementById(`peg${turn}${i}`)
     peg.addEventListener('click',changeColor)
     if(turn>1){
       var priorPeg=document.getElementById(`peg${turn-1}${i}`)
+      turnValues.push(priorPeg.getAttribute('value'))
     }
     else{
       var priorPeg=document.getElementById(`peg15${i}`)
+      targetValues.push(priorPeg.getAttribute('value'))
     }
-      console.log(priorPeg.id)
       priorPeg.removeEventListener('click',changeColor)//changeColor(priorPeg.id))
     }
+    compareValues(turnValues,targetValues)
   return turn
 }
 
+let turn=0
+let targetValues=[]
 const submitPlay=document.getElementById('submitPlay')
 submitPlay.addEventListener('click',()=>turn=(currentTurn(turn+1)))
 
@@ -85,3 +90,31 @@ const toggleHide=()=>{
 
 const hideButton=document.getElementById('hideButton')
 hideButton.addEventListener('click',()=>hide=toggleHide())
+
+//COMPARE VALUES 
+function compareValues(turn,target){
+  let tar=target.slice()
+  let tur=turn.slice()
+  let onTheSpot=[]
+  let inTheZoneTarget=[]
+  let inTheZoneTurn=[]
+  let inTheZone=0
+  tar.forEach((t,i)=>{
+    if(t==tur[i]){onTheSpot.push(i)
+    }
+    else{
+      inTheZoneTarget.push(t);
+      inTheZoneTurn.push(tur[i])
+    }
+  })
+  inTheZoneTarget.forEach(t=>{
+    if(inTheZoneTurn.includes(t)){
+      inTheZoneTurn.splice(inTheZoneTurn.indexOf(t),1);
+      inTheZone++
+    }
+  })
+  console.log("ok"+onTheSpot.length)
+  console.log("kinda"+inTheZone)
+}
+
+//RETURN INDICATOR PEG
